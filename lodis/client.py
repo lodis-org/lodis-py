@@ -14,12 +14,15 @@ class Command:
     RPUSH = 'rpush'
     LPOP = 'lpop'
     RPOP = 'rpop'
+    RANDPOP = 'randpop'
     LRANGE = 'lrange'
     RRANGE = 'rrange'
     LINDEX = 'lindex'
+    LRAND = 'lrand'
     LLEN = 'llen'
     LDEL = 'ldel'
     LRM = 'lrm'
+
     # Map
     HGET = 'hget'
     HSET = 'hset'
@@ -33,6 +36,7 @@ class Command:
     HDEL = 'hdel'
     HLEN = 'hlen'
     HRM = 'hrm'
+
     # ArrayMap
     ALPUSH = 'alpush'
     ALPUSHNX = 'alpushnx'
@@ -40,7 +44,9 @@ class Command:
     ARPUSHNX = 'arpushnx'
     ALPOP = 'alpop'
     ARPOP = 'arpop'
+    ARANDPOP = 'arandpop'
     AGET = 'aget'
+    ARAND = 'arand'
     ALRANGE = 'alrange'
     ARRANGE = 'arrange'
     AKEYS = 'akeys'
@@ -224,6 +230,11 @@ class Lodis:
         resp = self._request(url, data=b'')
         return Response(resp, return_type=ReturnType.Bytes)
 
+    def randpop(self):
+        url = self._db_url(Command.RANDPOP)
+        resp = self._request(url, data=b'')
+        return Response(resp, return_type=ReturnType.Bytes)
+
     def lrange(self, start, end):
         """0 <= start, end < MAX_U32"""
         url = self._db_url(Command.LRANGE)
@@ -243,6 +254,12 @@ class Lodis:
         url = self._db_url(Command.LINDEX)
         body = self._db_body(i64_to_u8x8(index))
         resp = self._request(url, data=body)
+        return Response(resp, return_type=ReturnType.Bytes)
+
+    def lrand(self):
+        """ Randomly getting an item"""
+        url = self._db_url(Command.LRAND)
+        resp = self._request(url, data=b'')
         return Response(resp, return_type=ReturnType.Bytes)
 
     def llen(self):
@@ -389,11 +406,23 @@ class Lodis:
         resp = self._request(url, data=b'')
         return Response(resp, return_type=ReturnType.Pair)
 
+    def arandpop(self):
+        url = self._db_url(Command.ARANDPOP)
+        resp = self._request(url, data=b'')
+        return Response(resp, return_type=ReturnType.Pair)
+
     def aget(self, key):
         url = self._db_url(Command.AGET)
         body = self._db_body(key)
         resp = self._request(url, data=body)
         return Response(resp, return_type=ReturnType.Bytes)
+
+    def arand(self):
+        """ Randomly getting an item"""
+
+        url = self._db_url(Command.ARAND)
+        resp = self._request(url, data=b'')
+        return Response(resp, return_type=ReturnType.Pair)
 
     def alrange(self, start, end):
         """0 <= start, end < MAX_U32"""
