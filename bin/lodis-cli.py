@@ -25,8 +25,8 @@ def parse_args():
     p.add_argument(
         '-c', '--config', action='store', default='server.config', type=str, help='config path'
     )
-    p.add_argument('-h', '--host', action='store', default=None, type=str, help='host')
-    p.add_argument('-p', '--port', action='store', default=None, type=str, help='port')
+    p.add_argument('--host', action='store', default=None, type=str, help='host')
+    p.add_argument('--port', action='store', default=None, type=str, help='port')
     args = p.parse_args(sys.argv[1:])
 
     if not args.host and args.config:
@@ -47,7 +47,7 @@ def main():
 
     lodis = Lodis(key_name, args.host, args.port)
     resp = getattr(lodis, cmd)(*params)
-    value = resp.value
+    value = resp.value()
     print(value)
 
 
