@@ -21,7 +21,7 @@ def u8x1_to_u8(buf):
 def u32_to_u8x4(u32):
     assert isinstance(u32, (int, str, bytes)), 'Unknown Type: {} - {}'.format(u32, type(u32))
     if isinstance(u32, (str, bytes)):
-        return u32
+        u32 = int(u32)
 
     assert u32 < MAX_U32
 
@@ -31,7 +31,7 @@ def u32_to_u8x4(u32):
 def i64_to_u8x8(i64):
     assert isinstance(i64, (int, str, bytes)), 'Unknown Type: {} - {}'.format(i64, type(i64))
     if isinstance(i64, (str, bytes)):
-        return i64
+        i64 = int(i64)
 
     assert -MAX_i64 < i64 < MAX_i64
 
