@@ -181,15 +181,15 @@ class Lodis:
         self._key_name = key_name
 
     def _request(self, url, data=None):
-        err = None
-        for _ in range(5):
+        _err = None
+        for _ in range(3):
             try:
                 return self._session.post(url, data=data)
             except Exception as err:
-                err = err
+                logger.error('Lodis: _request error: %s', err)
+                _err = err
                 continue
-            logger.error('Lodis: _request error: %s', err)
-        raise err
+        raise _err
 
     def _db_url(self, command):
         url = f'http://{self._ip}:{self._port}/{command}/{self._key_name}'
