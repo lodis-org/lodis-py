@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "lodis-py"
+homepage = "https://github.com/lodis-org/lodis-py"
+version = "0.1.0"
+description = "lodis-py - A Lodis Python Sync/Async Client"
+authors = ["PeterDing <dfhayst@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.26.0"
+mugen = "^0.5.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+mypy = "^0.910"
+black = "^21.6b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
