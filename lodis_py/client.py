@@ -1,8 +1,7 @@
 from enum import Enum
 import logging
 
-import requests
-import mugen
+import httpx
 
 from .error import CodeError, LodisError
 from .util import u8x4_to_u32, u8x1_to_u8, u32_to_u8x4, i64_to_u8x8, to_bytes
@@ -171,7 +170,7 @@ class LodisClient:
     def __init__(self, key_name, ip, port):
         self._ip = ip
         self._port = port
-        self._session = requests.Session()
+        self._session = httpx.Client()
         self._key_name = key_name
 
     @property
@@ -186,7 +185,7 @@ class LodisClient:
         _err: Exception = Exception()
         for _ in range(5):
             try:
-                return self._session.post(url, data=data)
+                return self._session.post(url, content=data)
             except Exception as err:
                 logger.error("Lodis: _request error: %s", err)
                 _err = err
@@ -483,12 +482,15 @@ class LodisClient:
     def flush(self):
         raise NotImplementedError("Can't use the method directly")
 
+    def close(self):
+        self._session.close()
+
 
 class AsyncLodisClient:
     def __init__(self, key_name, ip, port, loop=None):
         self._ip = ip
         self._port = port
-        self._session = mugen.session(loop=loop)
+        self._session = httpx.AsyncClient()
         self._key_name = key_name
 
     @property
@@ -503,7 +505,7 @@ class AsyncLodisClient:
         _err: Exception = Exception()
         for _ in range(5):
             try:
-                return await self._session.post(url, data=data)
+                return await self._session.post(url, content=data)
             except Exception as err:
                 _err = err
                 continue
@@ -818,3 +820,6 @@ class AsyncLodisClient:
 
     async def flush(self):
         raise NotImplementedError("Can't use the method directly")
+
+    async def aclose(self):
+        await self._session.aclose()
