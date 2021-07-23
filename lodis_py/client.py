@@ -171,7 +171,7 @@ class LodisClient:
     def __init__(self, key_name, ip, port):
         self._ip = ip
         self._port = port
-        self._session = requests.session()
+        self._session = requests.Session()
         self._key_name = key_name
 
     @property
