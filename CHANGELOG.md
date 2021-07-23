@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.0 - 2021-07-23
+
+### Changed
+
+- Use httpx instead of mugen as http client
+
 ## v0.1.1 - 2021-07-23
 
 ### Changed
