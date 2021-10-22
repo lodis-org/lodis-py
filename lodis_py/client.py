@@ -258,7 +258,7 @@ class LodisClient:
         return Response(resp, return_type=ReturnType.Bytes)
 
     def lrand(self):
-        """ Randomly getting an item"""
+        """Randomly getting an item"""
         url = self._db_url(Command.LRAND)
         resp = self._request(url, data=b"")
         return Response(resp, return_type=ReturnType.Bytes)
@@ -419,7 +419,7 @@ class LodisClient:
         return Response(resp, return_type=ReturnType.Bytes)
 
     def arand(self):
-        """ Randomly getting an item"""
+        """Randomly getting an item"""
 
         url = self._db_url(Command.ARAND)
         resp = self._request(url, data=b"")
@@ -579,7 +579,7 @@ class AsyncLodisClient:
         return Response(resp, return_type=ReturnType.Bytes)
 
     async def lrand(self):
-        """ Randomly getting an item"""
+        """Randomly getting an item"""
         url = self._db_url(Command.LRAND)
         resp = await self._request(url, data=b"")
         return Response(resp, return_type=ReturnType.Bytes)
@@ -759,7 +759,7 @@ class AsyncLodisClient:
         return Response(resp, return_type=ReturnType.Bytes)
 
     async def arand(self):
-        """ Randomly getting an item"""
+        """Randomly getting an item"""
         url = self._db_url(Command.ARAND)
         resp = await self._request(url, data=b"")
         return Response(resp, return_type=ReturnType.Pair)
