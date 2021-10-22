@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 - 2021-10-22
+
+### Changed
+
+- Update `httpx` to `0.20.0`
+
 ## v0.2.0 - 2021-07-23
 
 ### Changed

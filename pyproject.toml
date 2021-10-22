@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "lodis-py"
 homepage = "https://github.com/lodis-org/lodis-py"
-version = "0.2.0"
+version = "0.2.1"
 description = "lodis-py - A Lodis Python Sync/Async Client"
 authors = ["PeterDing <dfhayst@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-httpx = "^0.18.2"
+httpx = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
