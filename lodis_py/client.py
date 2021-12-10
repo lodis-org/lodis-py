@@ -1,5 +1,6 @@
 from enum import Enum
 import logging
+import asyncio
 
 import httpx
 
@@ -182,15 +183,13 @@ class LodisClient:
         self._key_name = key_name
 
     def _request(self, url, data=None):
-        _err: Exception = Exception()
-        for _ in range(5):
+        for i in range(5):
             try:
                 return self._session.post(url, content=data)
             except Exception as err:
-                logger.error("Lodis: _request error: %s", err)
-                _err = err
-                continue
-        raise _err
+                logger.error("LodisClient: _request error: %s", err)
+                if i == 4:
+                    raise
 
     def _db_url(self, command):
         url = f"http://{self._ip}:{self._port}/{command}/{self._key_name}"
@@ -501,17 +500,26 @@ class AsyncLodisClient:
     def key_name(self, key_name):
         self._key_name = key_name
 
-    async def _request(self, url, data=None):
-        _err: Exception = Exception()
-        for _ in range(5):
-            try:
-                return await self._session.post(url, content=data)
-            except Exception as err:
-                _err = err
-                continue
+    async def _reset_session(self):
+        await self._session.aclose()
+        self._session = httpx.AsyncClient()
 
-        logger.error("Lodis: _request error: %s", _err)
-        raise _err
+    async def _request(self, url, data=None):
+        while True:
+            if self._session.is_closed:
+                await asyncio.sleep(0.1)
+            else:
+                break
+
+        for i in range(5):
+            try:
+                return await asyncio.wait_for(self._session.post(url, content=data), 2)
+            except asyncio.TimeoutError:
+                await self._reset_session()
+            except Exception as err:
+                if i == 4:
+                    logger.error("AsyncLodisClient: _request error: %s", err)
+                    raise
 
     def _db_url(self, command):
         url = f"http://{self._ip}:{self._port}/{command}/{self._key_name}"
