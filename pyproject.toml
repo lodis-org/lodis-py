@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "lodis-py"
 homepage = "https://github.com/lodis-org/lodis-py"
-version = "0.2.1"
+version = "0.2.2"
 description = "lodis-py - A Lodis Python Sync/Async Client"
 authors = ["PeterDing <dfhayst@gmail.com>"]
 license = "MIT"
